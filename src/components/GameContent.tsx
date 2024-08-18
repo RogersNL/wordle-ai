@@ -5,9 +5,17 @@ import GameRow from "./GameRow";
 const GameContent = () => {
   const [guessIndex, setGuessIndex] = useState(0);
   const [guesses, setGuesses] = useState<string[]>(Array(6).fill(""));
-  const numberOfGuesses: number = 6;
 
-  const secretWord: string = "";
+  const secretWord: string = "testy";
+
+  const handleSubmitGuess = (guess: string) => {
+    console.log("guesses", guesses, guess);
+    const newGuesses = [...guesses];
+    newGuesses.splice(guessIndex, 1, guess);
+    console.log("new guesse", newGuesses);
+    setGuesses(newGuesses);
+    setGuessIndex(guessIndex + 1);
+  };
 
   return (
     <Container
@@ -32,6 +40,8 @@ const GameContent = () => {
             key={index}
             guessIndex={index}
             guess={guesses[index]}
+            handleSubmitGuess={handleSubmitGuess}
+            secretWord={secretWord}
             isDisabled={index !== guessIndex}
           />
         ))}

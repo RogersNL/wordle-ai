@@ -5,6 +5,8 @@ interface GameRowProps {
   guessIndex: number;
   guess: string;
   isDisabled: boolean;
+  secretWord: string;
+  handleSubmitGuess: Function;
 }
 const GameRow: FC<GameRowProps> = (props) => {
   const [values, setValues] = useState<string[]>(Array(5).fill(""));
@@ -36,6 +38,8 @@ const GameRow: FC<GameRowProps> = (props) => {
     event.preventDefault();
     const result = values.join("");
     console.log("RESULT", result);
+
+    props.handleSubmitGuess(result);
   };
 
   return (
@@ -73,6 +77,10 @@ const GameRow: FC<GameRowProps> = (props) => {
                 height: "50px",
                 fontSize: "50px",
                 textAlign: "center",
+                "&:disabled": {
+                  color: "black",
+                  WebkitTextFillColor: "black",
+                },
               },
             }}
           />
