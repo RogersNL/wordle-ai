@@ -42,6 +42,19 @@ const GameRow: FC<GameRowProps> = (props) => {
     props.handleSubmitGuess(result);
   };
 
+  const letterBackgroundColor = (letter: string, index: number): string => {
+    if (
+      props.secretWord.includes(letter) &&
+      props.secretWord[index] === letter
+    ) {
+      return "green";
+    } else if (props.secretWord.includes(letter)) {
+      return "yellow";
+    } else {
+      return "darkgray";
+    }
+  };
+
   return (
     <Box
       component="form"
@@ -53,7 +66,7 @@ const GameRow: FC<GameRowProps> = (props) => {
         direction="row"
         sx={{ display: "flex", justifyContent: "normal", width: "100%" }}
       >
-        {values.map((_, index) => (
+        {values.map((val, index) => (
           <TextField
             key={index}
             disabled={props.isDisabled}
@@ -72,6 +85,10 @@ const GameRow: FC<GameRowProps> = (props) => {
               readOnly: index > 0 && values[index - 1] === "",
             }}
             sx={{
+              backgroundColor:
+                props.isDisabled && val !== ""
+                  ? letterBackgroundColor(val, index)
+                  : "inherit",
               "& input": {
                 width: "50px",
                 height: "50px",

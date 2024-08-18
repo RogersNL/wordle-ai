@@ -1,5 +1,5 @@
 import { Button, Container, Stack } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import GameRow from "./GameRow";
 
 const GameContent = () => {
@@ -9,12 +9,12 @@ const GameContent = () => {
   const secretWord: string = "testy";
 
   const handleSubmitGuess = (guess: string) => {
-    console.log("guesses", guesses, guess);
-    const newGuesses = [...guesses];
-    newGuesses.splice(guessIndex, 1, guess);
-    console.log("new guesse", newGuesses);
-    setGuesses(newGuesses);
-    setGuessIndex(guessIndex + 1);
+    if (guess.length === secretWord.length) {
+      const newGuesses = [...guesses];
+      newGuesses.splice(guessIndex, 1, guess);
+      setGuesses(newGuesses);
+      setGuessIndex(guessIndex + 1);
+    }
   };
 
   return (
