@@ -7,7 +7,7 @@ const Header = () => {
         display: "flex",
         width: "100%",
         justifyContent: "center",
-        backgroundColor: "lightgreen",
+        backgroundColor: "#5a995a",
       }}
     >
       <Typography variant="h1">Wordle AI</Typography>

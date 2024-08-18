@@ -7,9 +7,12 @@ const GameContent = () => {
   const [guesses, setGuesses] = useState<string[]>(Array(6).fill(""));
   const numberOfGuesses: number = 6;
 
+  const secretWord: string = "";
+
   return (
     <Container
       sx={{
+        height: "100%",
         backgroundColor: "lightgray",
         display: "flex",
         justifyContent: "center",
@@ -25,7 +28,12 @@ const GameContent = () => {
         }}
       >
         {guesses.map((_, index, event) => (
-          <GameRow key={index} guessIndex={index} guess={guesses[index]} />
+          <GameRow
+            key={index}
+            guessIndex={index}
+            guess={guesses[index]}
+            isDisabled={index !== guessIndex}
+          />
         ))}
         <Button variant="outlined" type="submit" form={`form-${guessIndex}`}>
           Submit

@@ -4,6 +4,7 @@ import { FC, useRef, useState } from "react";
 interface GameRowProps {
   guessIndex: number;
   guess: string;
+  isDisabled: boolean;
 }
 const GameRow: FC<GameRowProps> = (props) => {
   const [values, setValues] = useState<string[]>(Array(5).fill(""));
@@ -19,6 +20,15 @@ const GameRow: FC<GameRowProps> = (props) => {
 
     if (value && index < 4) {
       inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, event: any) => {
+    if (event.key === "Backspace" && values[index] === "" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+      const newValues = [...values];
+      newValues[index - 1] = "";
+      setValues(newValues);
     }
   };
 
@@ -42,21 +52,26 @@ const GameRow: FC<GameRowProps> = (props) => {
         {values.map((_, index) => (
           <TextField
             key={index}
+            disabled={props.isDisabled}
             inputProps={{
               maxLength: 1,
               type: "text",
-              value: values[index],
+              value: values[index].toUpperCase(),
               onChange: (event) => {
                 handleChange(index, event);
               },
+              onKeyDown: (event) => {
+                handleKeyDown(index, event);
+              },
               ref: (el: HTMLInputElement | null) =>
                 (inputRefs.current[index] = el),
+              readOnly: index > 0 && values[index - 1] === "",
             }}
             sx={{
               "& input": {
-                width: "100px",
-                height: "100px",
-                fontSize: "100px",
+                width: "50px",
+                height: "50px",
+                fontSize: "50px",
                 textAlign: "center",
               },
             }}
