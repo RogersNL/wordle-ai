@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { Button, Container, Modal, Stack, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import GameRow from "./GameRow";
 import GameKeyboard from "./GameKeyboard";
@@ -14,6 +14,8 @@ const GameContent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const effectRan = useRef(false);
   const [isNotWord, setIsNotWord] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   useEffect(() => {
     if (!effectRan.current) {
@@ -69,17 +71,18 @@ const GameContent = () => {
   };
 
   const handleSubmitGuess = (guess: string) => {
-    if (guess.length === secretWord.length) {
-      DictionaryService.getDefinition(guess).then((response) => {
-        console.log(response);
-        if (response) {
-          setGuessIndex(guessIndex + 1);
-          setCurrentIndex(0);
-        } else {
-          setIsNotWord(true);
-        }
-      });
+    if (guess.toUpperCase() === secretWord.toUpperCase()) {
+      setIsGameOver(true);
+      setModalOpen(true);
     }
+    if (guess.length === secretWord.length) {
+      setGuessIndex(guessIndex + 1);
+      setCurrentIndex(0);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -112,19 +115,30 @@ const GameContent = () => {
             isDisabled={index !== guessIndex}
           />
         ))}
-        <Button
-          disabled={secretWord.length === 0}
-          variant="outlined"
-          type="submit"
-          form={`form-${guessIndex}`}
-          sx={{ color: "black", borderColor: "black" }}
-        >
-          {secretWord.length === 0
-            ? "Loading"
-            : isNotWord
-            ? "Not a Word"
-            : "Submit"}
-        </Button>
+        {!isGameOver ? (
+          <Button
+            disabled={secretWord.length === 0}
+            variant="outlined"
+            type="submit"
+            form={`form-${guessIndex}`}
+            sx={{ color: "black", borderColor: "black" }}
+          >
+            {secretWord.length === 0
+              ? "Loading"
+              : isNotWord
+              ? "Not a Word"
+              : "Submit"}
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => window.location.reload()}
+            sx={{ color: "black", borderColor: "black" }}
+          >
+            New Game
+          </Button>
+        )}
         <GameKeyboard
           onKeyPress={handleKeyPress}
           secretWord={secretWord}
@@ -132,6 +146,50 @@ const GameContent = () => {
           guessIndex={guessIndex}
         />
       </Stack>
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Container
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "lightgray",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Stack
+            gap={1}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h2" component="h2">
+              You Win!!
+            </Typography>
+            <Typography variant="h4" sx={{}}>
+              Play again?
+            </Typography>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => window.location.reload()}
+              sx={{ color: "black", borderColor: "black" }}
+            >
+              New Game
+            </Button>
+          </Stack>
+        </Container>
+      </Modal>
     </Container>
   );
 };
