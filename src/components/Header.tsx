@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 const Header = () => {
   return (
@@ -10,7 +10,10 @@ const Header = () => {
         backgroundColor: "#5a995a",
       }}
     >
-      <Typography variant="h1">Wordle AI</Typography>
+      <Stack direction="row">
+        <Box component="img" src=""></Box>
+        <Typography variant="h1">Wordle</Typography>
+      </Stack>
     </Box>
   );
 };

@@ -1,18 +1,45 @@
-import { Button, Container, Stack } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import GameRow from "./GameRow";
 import GameKeyboard from "./GameKeyboard";
+import { WordService } from "../services/WordService";
+import { DictionaryService } from "../services/DictionaryService";
 
 const GameContent = () => {
   const [guessIndex, setGuessIndex] = useState(0);
   const [guesses, setGuesses] = useState<string[][]>(
     Array(6).fill(Array(5).fill(""))
   );
+  const [secretWord, setSecretWord] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const effectRan = useRef(false);
+  const [isNotWord, setIsNotWord] = useState(false);
 
-  const secretWord: string = "testy";
+  useEffect(() => {
+    if (!effectRan.current) {
+      WordService.getRandomWord().then((response) => {
+        if (response) {
+          setSecretWord(response[0]);
+        }
+      });
+      effectRan.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentIndex === 5) {
+      DictionaryService.getDefinition(guesses[guessIndex].join("")).then(
+        (response) => {
+          if (response === undefined) {
+            setIsNotWord(true);
+          }
+        }
+      );
+    }
+  }, [currentIndex]);
 
   const handleKeyPress = (event: React.KeyboardEvent | string) => {
+    setIsNotWord(false);
     const key = typeof event === "string" ? event : event.key;
 
     // Check if the key pressed is a valid single character
@@ -41,10 +68,17 @@ const GameContent = () => {
     }
   };
 
-  const handleSubmitGuess = (guess: string[]) => {
+  const handleSubmitGuess = (guess: string) => {
     if (guess.length === secretWord.length) {
-      setGuessIndex(guessIndex + 1);
-      setCurrentIndex(0);
+      DictionaryService.getDefinition(guess).then((response) => {
+        console.log(response);
+        if (response) {
+          setGuessIndex(guessIndex + 1);
+          setCurrentIndex(0);
+        } else {
+          setIsNotWord(true);
+        }
+      });
     }
   };
 
@@ -62,7 +96,7 @@ const GameContent = () => {
       <Stack
         gap={2}
         sx={{
-          padding: "50px",
+          padding: "30px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -78,8 +112,18 @@ const GameContent = () => {
             isDisabled={index !== guessIndex}
           />
         ))}
-        <Button variant="outlined" type="submit" form={`form-${guessIndex}`}>
-          Submit
+        <Button
+          disabled={secretWord.length === 0}
+          variant="outlined"
+          type="submit"
+          form={`form-${guessIndex}`}
+          sx={{ color: "black", borderColor: "black" }}
+        >
+          {secretWord.length === 0
+            ? "Loading"
+            : isNotWord
+            ? "Not a Word"
+            : "Submit"}
         </Button>
         <GameKeyboard
           onKeyPress={handleKeyPress}

@@ -57,9 +57,9 @@ const GameRow: FC<GameRowProps> = (props) => {
                   ? letterBackgroundColor(val, index)
                   : "inherit",
               "& input": {
-                width: "50px",
-                height: "50px",
-                fontSize: "50px",
+                width: "40px",
+                height: "40px",
+                fontSize: "40px",
                 textAlign: "center",
                 "&:disabled": {
                   color: "black",
@@ -70,12 +70,6 @@ const GameRow: FC<GameRowProps> = (props) => {
             }}
           />
         ))}
-        <Button
-          variant="outlined"
-          type="submit"
-          onClick={handleSubmit}
-          sx={{ display: "none" }}
-        ></Button>
       </Stack>
     </Box>
   );
