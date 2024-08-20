@@ -7,7 +7,7 @@ const Header = () => {
         display: "flex",
         width: "100%",
         justifyContent: "center",
-        backgroundColor: "#5a995a",
+        backgroundColor: "#bd7d92",
       }}
     >
       <Stack direction="row">

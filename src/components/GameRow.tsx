@@ -44,12 +44,12 @@ const GameRow: FC<GameRowProps> = (props) => {
         {props.guess.map((val, index) => (
           <TextField
             key={index}
-            disabled={props.isDisabled}
+            // disabled={props.isDisabled}
             inputProps={{
               maxLength: 1,
               type: "text",
               value: props.guess[index].toUpperCase(),
-              readOnly: true,
+              disabled: true,
             }}
             sx={{
               backgroundColor:

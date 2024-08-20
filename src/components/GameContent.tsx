@@ -117,7 +117,9 @@ const GameContent = () => {
         ))}
         {!isGameOver ? (
           <Button
-            disabled={secretWord.length === 0}
+            disabled={
+              secretWord.length === 0 || currentIndex !== 5 || isNotWord
+            }
             variant="outlined"
             type="submit"
             form={`form-${guessIndex}`}
