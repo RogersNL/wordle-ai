@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import theme from "../theme";
 
 const Header = () => {
   return (
@@ -12,7 +13,16 @@ const Header = () => {
     >
       <Stack direction="row">
         <Box component="img" src=""></Box>
-        <Typography variant="h1">Wordle</Typography>
+        <Typography
+          variant="h1"
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              fontSize: "3rem",
+            },
+          }}
+        >
+          Wordle
+        </Typography>
       </Stack>
     </Box>
   );

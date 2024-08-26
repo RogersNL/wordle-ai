@@ -1,5 +1,6 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { FC } from "react";
+import theme from "../theme";
 
 interface GameRowProps {
   guessIndex: number;
@@ -44,7 +45,6 @@ const GameRow: FC<GameRowProps> = (props) => {
         {props.guess.map((val, index) => (
           <TextField
             key={index}
-            // disabled={props.isDisabled}
             inputProps={{
               maxLength: 1,
               type: "text",
@@ -57,9 +57,21 @@ const GameRow: FC<GameRowProps> = (props) => {
                   ? letterBackgroundColor(val, index)
                   : "inherit",
               "& input": {
-                width: "40px",
-                height: "40px",
-                fontSize: "40px",
+                [theme.breakpoints.up("md")]: {
+                  width: "40px",
+                  height: "40px",
+                  fontSize: "40px",
+                },
+                [theme.breakpoints.up("sm")]: {
+                  width: "30px",
+                  height: "30px",
+                  fontSize: "30px",
+                },
+                [theme.breakpoints.up("xs")]: {
+                  width: "20px",
+                  height: "20px",
+                  fontSize: "20px",
+                },
                 textAlign: "center",
                 "&:disabled": {
                   color: "black",

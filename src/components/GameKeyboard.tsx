@@ -1,5 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import { FC, useEffect, useState } from "react";
+import theme from "../theme";
 
 interface GameKeyboardProps {
   onKeyPress: Function;
@@ -63,6 +64,10 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
           color: "black",
           borderColor: "black",
           backgroundColor: props.backgroundColor,
+          [theme.breakpoints.down("sm")]: {
+            padding: "5px 5px",
+            fontSize: "0.7rem",
+          },
         }}
       >
         {props.text}
@@ -70,11 +75,30 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
     );
   };
   return (
-    <Stack gap={1} sx={{ display: "flex", justifyContent: "center" }}>
+    <Stack
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        [theme.breakpoints.up("sm")]: {
+          gap: "8px",
+        },
+        [theme.breakpoints.up("xs")]: {
+          gap: "4px",
+        },
+      }}
+    >
       <Stack
-        gap={1}
         direction="row"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          [theme.breakpoints.up("sm")]: {
+            gap: "8px",
+          },
+          [theme.breakpoints.up("xs")]: {
+            gap: "4px",
+          },
+        }}
       >
         {row1.map((val, index) => (
           <Key
@@ -86,9 +110,17 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
         ))}
       </Stack>
       <Stack
-        gap={1}
         direction="row"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          [theme.breakpoints.up("sm")]: {
+            gap: "8px",
+          },
+          [theme.breakpoints.up("xs")]: {
+            gap: "4px",
+          },
+        }}
       >
         {row2.map((val, index) => (
           <Key
@@ -100,9 +132,17 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
         ))}
       </Stack>
       <Stack
-        gap={1}
         direction="row"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          [theme.breakpoints.up("sm")]: {
+            gap: "8px",
+          },
+          [theme.breakpoints.up("xs")]: {
+            gap: "4px",
+          },
+        }}
       >
         {row3.map((val, index) => (
           <Key

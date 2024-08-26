@@ -4,6 +4,7 @@ import GameRow from "./GameRow";
 import GameKeyboard from "./GameKeyboard";
 import { WordService } from "../services/WordService";
 import { DictionaryService } from "../services/DictionaryService";
+import theme from "../theme";
 
 const GameContent = () => {
   const [guessIndex, setGuessIndex] = useState(0);
@@ -94,14 +95,17 @@ const GameContent = () => {
         backgroundColor: "lightgray",
         display: "flex",
         justifyContent: "center",
+        [theme.breakpoints.down("sm")]: {
+          padding: "0",
+        },
       }}
     >
       <Stack
         gap={2}
         sx={{
-          padding: "30px",
+          paddingTop: "30px",
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           alignItems: "center",
         }}
       >
