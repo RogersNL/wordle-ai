@@ -1,5 +1,5 @@
-import { Box, Button, Stack, TextField } from "@mui/material";
-import { FC } from "react";
+import { Box, Stack, TextField } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 import theme from "../theme";
 
 interface GameRowProps {
@@ -10,26 +10,56 @@ interface GameRowProps {
   handleSubmitGuess: Function;
 }
 const GameRow: FC<GameRowProps> = (props) => {
+  const [letterBackgroundColors, setLetterBackgroundColors] = useState(
+    Array(5).fill("")
+  );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const result = props.guess.join("");
-    console.log("RESULT", result);
 
     props.handleSubmitGuess(result);
   };
 
-  const letterBackgroundColor = (letter: string, index: number): string => {
-    if (
-      props.secretWord.toUpperCase().includes(letter.toUpperCase()) &&
-      props.secretWord.toUpperCase()[index] === letter.toUpperCase()
-    ) {
-      return "green";
-    } else if (props.secretWord.toUpperCase().includes(letter.toUpperCase())) {
-      return "yellow";
-    } else {
-      return "darkgray";
+  useEffect(() => {
+    if (!props.guess.includes("")) {
+      const secretWordArray = props.secretWord.toUpperCase().split("");
+      const guessArray = [...props.guess];
+
+      // Handle assign green
+      const greenBackgrounds = [...letterBackgroundColors].map((_, index) =>
+        secretWordArray[index] === props.guess[index] ? "green" : ""
+      );
+      const leftoverSecret = secretWordArray.map((l, index) =>
+        greenBackgrounds[index] !== "green" ? l : ""
+      );
+      const leftoverGuess = guessArray.map((l, index) =>
+        greenBackgrounds[index] !== "green" ? l : ""
+      );
+
+      // Handle assign yellow
+
+      const allBackgrounds = greenBackgrounds.map((bg, index) => {
+        if (bg !== "green") {
+          const hasLetter: boolean = leftoverSecret.includes(
+            leftoverGuess[index]
+          );
+          if (hasLetter) {
+            leftoverSecret.splice(
+              leftoverSecret.indexOf(leftoverGuess[index]),
+              1,
+              ""
+            );
+            leftoverGuess.splice(index, 1, "");
+          }
+          return hasLetter ? "yellow" : "darkgray";
+        } else {
+          return bg;
+        }
+      });
+
+      setLetterBackgroundColors(allBackgrounds);
     }
-  };
+  }, [props.guess]);
 
   return (
     <Box
@@ -54,7 +84,7 @@ const GameRow: FC<GameRowProps> = (props) => {
             sx={{
               backgroundColor:
                 props.isDisabled && val !== ""
-                  ? letterBackgroundColor(val, index)
+                  ? letterBackgroundColors[index]
                   : "inherit",
               "& input": {
                 [theme.breakpoints.up("md")]: {
