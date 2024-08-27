@@ -92,7 +92,7 @@ const GameContent = () => {
       onKeyDown={handleKeyPress}
       sx={{
         height: "100%",
-        backgroundColor: "lightgray",
+        backgroundColor: theme.palette.background.paper,
         display: "flex",
         justifyContent: "center",
         [theme.breakpoints.down("sm")]: {
@@ -101,12 +101,15 @@ const GameContent = () => {
       }}
     >
       <Stack
-        gap={2}
+        gap={1}
         sx={{
           paddingTop: "30px",
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
+          [theme.breakpoints.down("sm")]: {
+            paddingTop: "10px",
+          },
         }}
       >
         {guesses.map((_, index, event) => (
@@ -127,7 +130,14 @@ const GameContent = () => {
             variant="outlined"
             type="submit"
             form={`form-${guessIndex}`}
-            sx={{ color: "black", borderColor: "black" }}
+            sx={{
+              padding: "15px",
+              fontSize: "1.3rem",
+              [theme.breakpoints.down("sm")]: {
+                padding: "10px 5px",
+                fontSize: "0.9rem",
+              },
+            }}
           >
             {secretWord.length === 0
               ? "Loading"
@@ -140,7 +150,6 @@ const GameContent = () => {
             type="button"
             variant="outlined"
             onClick={() => window.location.reload()}
-            sx={{ color: "black", borderColor: "black" }}
           >
             New Game
           </Button>
@@ -165,8 +174,9 @@ const GameContent = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: "lightgray",
-            border: "2px solid #000",
+            bgcolor: theme.palette.grey[900],
+            color: theme.palette.primary.main,
+            border: "2px solid",
             boxShadow: 24,
             p: 4,
           }}
@@ -177,19 +187,32 @@ const GameContent = () => {
               display: "flex",
               justifyContent: "center",
               textAlign: "center",
+              fontSize: "1.3rem",
             }}
           >
             <Typography variant="h2" component="h2">
-              You Win!!
+              You Win!
             </Typography>
             <Typography variant="h4" sx={{}}>
-              Play again?
+              {`Winning Word: ${guesses[guessIndex - 1]
+                ?.join("")
+                ?.toUpperCase()}`}
+            </Typography>
+            <Typography variant="h4" sx={{}}>
+              {`# Attempts: ${guessIndex + 1}`}
             </Typography>
             <Button
               type="button"
               variant="outlined"
               onClick={() => window.location.reload()}
-              sx={{ color: "black", borderColor: "black" }}
+              sx={{
+                padding: "15px",
+                fontSize: "1.3rem",
+                [theme.breakpoints.down("sm")]: {
+                  padding: "10px 5px",
+                  fontSize: "0.9rem",
+                },
+              }}
             >
               New Game
             </Button>

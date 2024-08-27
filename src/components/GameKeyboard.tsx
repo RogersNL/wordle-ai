@@ -26,16 +26,16 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
       const newKeyColors = { ...allLetters, ...prevKeyColors };
       if (props.guessIndex - 1 >= 0) {
         props.guesses[props.guessIndex - 1].forEach((letter, index) => {
-          if (newKeyColors[letter] !== "green") {
+          if (newKeyColors[letter] !== theme.palette.success.main) {
             if (
               props.secretWord.toUpperCase().includes(letter) &&
               props.secretWord.toUpperCase()[index] === letter
             ) {
-              newKeyColors[letter] = "green";
+              newKeyColors[letter] = theme.palette.success.main;
             } else if (props.secretWord.toUpperCase().includes(letter)) {
-              newKeyColors[letter] = "yellow";
+              newKeyColors[letter] = theme.palette.warning.main;
             } else {
-              newKeyColors[letter] = "darkgray";
+              newKeyColors[letter] = theme.palette.grey[800];
             }
           }
         });
@@ -58,15 +58,16 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
     return (
       <Button
         variant="outlined"
+        color="secondary"
         type="button"
         onClick={() => handleOnPress(props.text)}
         sx={{
-          color: "black",
-          borderColor: "black",
           backgroundColor: props.backgroundColor,
+          padding: "15px",
+          fontSize: "1.3rem",
           [theme.breakpoints.down("sm")]: {
-            padding: "5px 5px",
-            fontSize: "0.7rem",
+            padding: "10px 5px",
+            fontSize: "0.9rem",
           },
         }}
       >

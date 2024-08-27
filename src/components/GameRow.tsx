@@ -27,19 +27,21 @@ const GameRow: FC<GameRowProps> = (props) => {
 
       // Handle assign green
       const greenBackgrounds = [...letterBackgroundColors].map((_, index) =>
-        secretWordArray[index] === props.guess[index] ? "green" : ""
+        secretWordArray[index] === props.guess[index]
+          ? theme.palette.success.main
+          : ""
       );
       const leftoverSecret = secretWordArray.map((l, index) =>
-        greenBackgrounds[index] !== "green" ? l : ""
+        greenBackgrounds[index] !== theme.palette.success.main ? l : ""
       );
       const leftoverGuess = guessArray.map((l, index) =>
-        greenBackgrounds[index] !== "green" ? l : ""
+        greenBackgrounds[index] !== theme.palette.success.main ? l : ""
       );
 
       // Handle assign yellow
 
       const allBackgrounds = greenBackgrounds.map((bg, index) => {
-        if (bg !== "green") {
+        if (bg !== theme.palette.success.main) {
           const hasLetter: boolean = leftoverSecret.includes(
             leftoverGuess[index]
           );
@@ -51,7 +53,9 @@ const GameRow: FC<GameRowProps> = (props) => {
             );
             leftoverGuess.splice(index, 1, "");
           }
-          return hasLetter ? "yellow" : "darkgray";
+          return hasLetter
+            ? theme.palette.warning.main
+            : theme.palette.grey[800];
         } else {
           return bg;
         }
@@ -68,7 +72,7 @@ const GameRow: FC<GameRowProps> = (props) => {
       onSubmit={handleSubmit}
     >
       <Stack
-        gap={2}
+        gap={1}
         direction="row"
         sx={{ display: "flex", justifyContent: "normal", width: "100%" }}
       >
@@ -98,16 +102,11 @@ const GameRow: FC<GameRowProps> = (props) => {
                   fontSize: "30px",
                 },
                 [theme.breakpoints.up("xs")]: {
-                  width: "20px",
-                  height: "20px",
+                  width: "15px",
+                  height: "15px",
                   fontSize: "20px",
                 },
                 textAlign: "center",
-                "&:disabled": {
-                  color: "black",
-                  WebkitTextFillColor: "black",
-                },
-                "&:focused": { color: "black", borderColor: "black" },
               },
             }}
           />

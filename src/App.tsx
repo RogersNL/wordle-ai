@@ -10,7 +10,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          backgroundColor: "darkgray",
+          backgroundColor: theme.palette.grey[800],
           height: "100vh",
           display: "flex",
           flexDirection: "column",
