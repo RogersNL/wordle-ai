@@ -20,26 +20,62 @@ const GameContent = () => {
 
   useEffect(() => {
     if (!effectRan.current) {
-      WordService.getRandomWord().then((response) => {
-        if (response) {
-          setSecretWord(response[0]);
-        }
-      });
+      getNewWord();
       effectRan.current = true;
     }
   }, []);
 
   useEffect(() => {
     if (currentIndex === 5) {
-      DictionaryService.getDefinition(guesses[guessIndex].join("")).then(
-        (response) => {
-          if (response === undefined) {
-            setIsNotWord(true);
-          }
+      validateWord(guesses[guessIndex].join("")).then((response) => {
+        if (response === undefined) {
+          setIsNotWord(true);
         }
-      );
+      });
     }
   }, [currentIndex]);
+
+  const getNewWord = async (): Promise<void> => {
+    let getWord = async (): Promise<string> =>
+      WordService.getRandomWord().then((response) => {
+        const word = response[0];
+
+        const isValidWord = validateWord(word);
+        const isNotPlural = word.endsWith("s")
+          ? validateWord(word.substring(0, word.length - 1))
+          : Promise.resolve(true);
+
+        return Promise.allSettled([isValidWord, isNotPlural]).then(
+          (results) => {
+            const [isValidWordResult, isNotPluralResult] = results;
+            if (
+              isValidWordResult.status === "fulfilled" &&
+              isValidWordResult.value &&
+              (isNotPluralResult.status === undefined ||
+                (isNotPluralResult.status === "fulfilled" &&
+                  isNotPluralResult.value))
+            ) {
+              return word;
+            } else {
+              return Promise.resolve("");
+            }
+          }
+        );
+      });
+    let counter = 0;
+    while (counter < 3) {
+      let result = await getWord();
+      if (result) {
+        setSecretWord(result);
+        break;
+      }
+      counter++;
+    }
+  };
+
+  const validateWord = (word: string): Promise<boolean> => {
+    return DictionaryService.getDefinition(word);
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent | string) => {
     setIsNotWord(false);
@@ -199,7 +235,7 @@ const GameContent = () => {
                 ?.toUpperCase()}`}
             </Typography>
             <Typography variant="h4" sx={{}}>
-              {`# Attempts: ${guessIndex + 1}`}
+              {`# Attempts: ${guessIndex}`}
             </Typography>
             <Button
               type="button"
