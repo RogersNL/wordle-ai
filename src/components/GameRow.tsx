@@ -91,20 +91,21 @@ const GameRow: FC<GameRowProps> = (props) => {
                   ? letterBackgroundColors[index]
                   : "inherit",
               "& input": {
+                padding: "0",
                 [theme.breakpoints.up("md")]: {
-                  width: "40px",
-                  height: "40px",
+                  width: "68px",
+                  height: "73px",
                   fontSize: "40px",
                 },
                 [theme.breakpoints.up("sm")]: {
-                  width: "30px",
-                  height: "30px",
-                  fontSize: "30px",
+                  width: "58px",
+                  height: "63px",
+                  fontSize: "35px",
                 },
                 [theme.breakpoints.up("xs")]: {
-                  width: "15px",
-                  height: "15px",
-                  fontSize: "20px",
+                  width: "43px",
+                  height: "48px",
+                  fontSize: "25px",
                 },
                 textAlign: "center",
               },
