@@ -5,6 +5,7 @@ import GameKeyboard from "./GameKeyboard";
 import { WordService } from "../services/WordService";
 import { DictionaryService } from "../services/DictionaryService";
 import theme from "../theme";
+import type {} from "@mui/material/themeCssVarsAugmentation";
 
 const GameContent = () => {
   const [guessIndex, setGuessIndex] = useState(0);
@@ -43,17 +44,17 @@ const GameContent = () => {
         const isValidWord = validateWord(word);
         const isNotPlural = word.endsWith("s")
           ? validateWord(word.substring(0, word.length - 1))
-          : Promise.resolve(true);
+          : Promise.resolve(undefined);
 
         return Promise.allSettled([isValidWord, isNotPlural]).then(
           (results) => {
             const [isValidWordResult, isNotPluralResult] = results;
+            console.log("d", isValidWordResult, isNotPluralResult);
             if (
               isValidWordResult.status === "fulfilled" &&
               isValidWordResult.value &&
-              (isNotPluralResult === undefined ||
-                (isNotPluralResult.status === "fulfilled" &&
-                  isNotPluralResult.value))
+              isNotPluralResult.status === "fulfilled" &&
+              isNotPluralResult.value === undefined
             ) {
               return word;
             } else {
@@ -78,32 +79,34 @@ const GameContent = () => {
   };
 
   const handleKeyPress = (event: React.KeyboardEvent | string) => {
-    setIsNotWord(false);
-    const key = typeof event === "string" ? event : event.key;
+    if (!isGameOver) {
+      setIsNotWord(false);
+      const key = typeof event === "string" ? event : event.key;
 
-    // Check if the key pressed is a valid single character
-    if (
-      /^[a-zA-Z0-9]$/.test(key) &&
-      currentIndex < guesses[guessIndex].length
-    ) {
-      const newValues: string[] = [...guesses[guessIndex]];
-      newValues[currentIndex] = key.toUpperCase();
-      const newGuesses: string[][] = [...guesses];
-      newGuesses.splice(guessIndex, 1, newValues);
+      // Check if the key pressed is a valid single character
+      if (
+        /^[a-zA-Z0-9]$/.test(key) &&
+        currentIndex < guesses[guessIndex].length
+      ) {
+        const newValues: string[] = [...guesses[guessIndex]];
+        newValues[currentIndex] = key.toUpperCase();
+        const newGuesses: string[][] = [...guesses];
+        newGuesses.splice(guessIndex, 1, newValues);
 
-      setGuesses(newGuesses);
-      setCurrentIndex(currentIndex + 1);
-    }
+        setGuesses(newGuesses);
+        setCurrentIndex(currentIndex + 1);
+      }
 
-    // Handle backspace
-    if (key === "Backspace" && currentIndex > 0) {
-      const newValues: string[] = [...guesses[guessIndex]];
-      newValues[currentIndex - 1] = "";
-      const newGuesses: string[][] = [...guesses];
-      newGuesses.splice(guessIndex, 1, newValues);
+      // Handle backspace
+      if (key === "Backspace" && currentIndex > 0) {
+        const newValues: string[] = [...guesses[guessIndex]];
+        newValues[currentIndex - 1] = "";
+        const newGuesses: string[][] = [...guesses];
+        newGuesses.splice(guessIndex, 1, newValues);
 
-      setGuesses(newGuesses);
-      setCurrentIndex(currentIndex - 1);
+        setGuesses(newGuesses);
+        setCurrentIndex(currentIndex - 1);
+      }
     }
   };
 
@@ -166,6 +169,7 @@ const GameContent = () => {
             type="submit"
             form={`form-${guessIndex}`}
             sx={{
+              color: theme.vars.palette.primary.contrastText,
               padding: "15px",
               fontSize: "1.3rem",
               [theme.breakpoints.down("sm")]: {
@@ -186,6 +190,7 @@ const GameContent = () => {
             variant="outlined"
             onClick={() => window.location.reload()}
             sx={{
+              color: theme.vars.palette.primary.contrastText,
               padding: "15px",
               fontSize: "1.3rem",
               [theme.breakpoints.down("sm")]: {
@@ -217,8 +222,8 @@ const GameContent = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: theme.palette.grey[900],
-            color: theme.palette.primary.main,
+            bgcolor: theme.vars.palette.background.default,
+            color: theme.vars.palette.primary.main,
             border: "2px solid",
             boxShadow: 24,
             p: 4,
@@ -249,6 +254,7 @@ const GameContent = () => {
               variant="outlined"
               onClick={() => window.location.reload()}
               sx={{
+                color: theme.vars.palette.primary.contrastText,
                 padding: "15px",
                 fontSize: "1.3rem",
                 [theme.breakpoints.down("sm")]: {

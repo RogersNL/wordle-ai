@@ -1,6 +1,7 @@
 import { Box, Stack, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import theme from "../theme";
+import type {} from "@mui/material/themeCssVarsAugmentation";
 
 interface GameRowProps {
   guessIndex: number;
@@ -28,20 +29,20 @@ const GameRow: FC<GameRowProps> = (props) => {
       // Handle assign green
       const greenBackgrounds = [...letterBackgroundColors].map((_, index) =>
         secretWordArray[index] === props.guess[index]
-          ? theme.palette.success.main
+          ? theme.vars.palette.success.main
           : ""
       );
       const leftoverSecret = secretWordArray.map((l, index) =>
-        greenBackgrounds[index] !== theme.palette.success.main ? l : ""
+        greenBackgrounds[index] !== theme.vars.palette.success.main ? l : ""
       );
       const leftoverGuess = guessArray.map((l, index) =>
-        greenBackgrounds[index] !== theme.palette.success.main ? l : ""
+        greenBackgrounds[index] !== theme.vars.palette.success.main ? l : ""
       );
 
       // Handle assign yellow
 
       const allBackgrounds = greenBackgrounds.map((bg, index) => {
-        if (bg !== theme.palette.success.main) {
+        if (bg !== theme.vars.palette.success.main) {
           const hasLetter: boolean = leftoverSecret.includes(
             leftoverGuess[index]
           );
@@ -54,8 +55,8 @@ const GameRow: FC<GameRowProps> = (props) => {
             leftoverGuess.splice(index, 1, "");
           }
           return hasLetter
-            ? theme.palette.warning.main
-            : theme.palette.grey[800];
+            ? theme.vars.palette.warning.main
+            : theme.vars.palette.info.main;
         } else {
           return bg;
         }
@@ -90,6 +91,7 @@ const GameRow: FC<GameRowProps> = (props) => {
                 props.isDisabled && val !== ""
                   ? letterBackgroundColors[index]
                   : "inherit",
+              color: theme.vars.palette.primary.contrastText,
               "& input": {
                 padding: "0",
                 [theme.breakpoints.up("md")]: {

@@ -1,6 +1,7 @@
 import { Button, Stack } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import theme from "../theme";
+import type {} from "@mui/material/themeCssVarsAugmentation";
 
 interface GameKeyboardProps {
   onKeyPress: Function;
@@ -26,16 +27,16 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
       const newKeyColors = { ...allLetters, ...prevKeyColors };
       if (props.guessIndex - 1 >= 0) {
         props.guesses[props.guessIndex - 1].forEach((letter, index) => {
-          if (newKeyColors[letter] !== theme.palette.success.main) {
+          if (newKeyColors[letter] !== theme.vars.palette.success.main) {
             if (
               props.secretWord.toUpperCase().includes(letter) &&
               props.secretWord.toUpperCase()[index] === letter
             ) {
-              newKeyColors[letter] = theme.palette.success.main;
+              newKeyColors[letter] = theme.vars.palette.success.main;
             } else if (props.secretWord.toUpperCase().includes(letter)) {
-              newKeyColors[letter] = theme.palette.warning.main;
+              newKeyColors[letter] = theme.vars.palette.warning.main;
             } else {
-              newKeyColors[letter] = theme.palette.grey[800];
+              newKeyColors[letter] = theme.vars.palette.info.main;
             }
           }
         });
@@ -63,6 +64,7 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
         onClick={() => handleOnPress(props.text)}
         sx={{
           backgroundColor: props.backgroundColor,
+          color: theme.vars.palette.primary.contrastText,
           padding: "15px",
           fontSize: "1.3rem",
           [theme.breakpoints.down("sm")]: {
