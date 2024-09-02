@@ -51,7 +51,7 @@ const GameContent = () => {
             if (
               isValidWordResult.status === "fulfilled" &&
               isValidWordResult.value &&
-              (isNotPluralResult.status === undefined ||
+              (isNotPluralResult === undefined ||
                 (isNotPluralResult.status === "fulfilled" &&
                   isNotPluralResult.value))
             ) {
@@ -128,7 +128,6 @@ const GameContent = () => {
       onKeyDown={handleKeyPress}
       sx={{
         height: "100%",
-        backgroundColor: theme.palette.background.paper,
         display: "flex",
         justifyContent: "center",
         [theme.breakpoints.down("sm")]: {
@@ -186,6 +185,14 @@ const GameContent = () => {
             type="button"
             variant="outlined"
             onClick={() => window.location.reload()}
+            sx={{
+              padding: "15px",
+              fontSize: "1.3rem",
+              [theme.breakpoints.down("sm")]: {
+                padding: "10px 5px",
+                fontSize: "0.9rem",
+              },
+            }}
           >
             New Game
           </Button>

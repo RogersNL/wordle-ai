@@ -93,18 +93,18 @@ const GameRow: FC<GameRowProps> = (props) => {
               "& input": {
                 padding: "0",
                 [theme.breakpoints.up("md")]: {
-                  width: "68px",
-                  height: "73px",
+                  width: "70px",
+                  height: "70px",
                   fontSize: "40px",
                 },
                 [theme.breakpoints.up("sm")]: {
-                  width: "58px",
-                  height: "63px",
+                  width: "60px",
+                  height: "60px",
                   fontSize: "35px",
                 },
                 [theme.breakpoints.up("xs")]: {
-                  width: "43px",
-                  height: "48px",
+                  width: "45px",
+                  height: "45px",
                   fontSize: "25px",
                 },
                 textAlign: "center",
