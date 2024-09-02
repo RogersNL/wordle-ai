@@ -91,8 +91,11 @@ const GameRow: FC<GameRowProps> = (props) => {
                 props.isDisabled && val !== ""
                   ? letterBackgroundColors[index]
                   : "inherit",
-              color: theme.vars.palette.primary.contrastText,
+              color: `${theme.vars.palette.primary.contrastText} !important`,
               "& input": {
+                WebkitUserSelect: "none",
+                MozUserSelect: "none",
+                msUserSelect: "none",
                 padding: "0",
                 [theme.breakpoints.up("md")]: {
                   width: "70px",
@@ -110,6 +113,12 @@ const GameRow: FC<GameRowProps> = (props) => {
                   fontSize: "25px",
                 },
                 textAlign: "center",
+                "&:read-only": {
+                  color: `${theme.vars.palette.primary.contrastText} !important`,
+                  WebkitAppearance: "none",
+                  opacity: "1",
+                  WebkitTextFillColor: `${theme.vars.palette.primary.contrastText} !important`,
+                },
               },
             }}
           />

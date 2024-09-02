@@ -71,6 +71,9 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
             padding: "10px 5px",
             fontSize: "0.9rem",
           },
+          "&:active": {
+            backgroundColor: "default",
+          },
         }}
       >
         {props.text}
