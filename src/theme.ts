@@ -94,7 +94,7 @@ const theme = createTheme({
             minWidth: "45px",
           },
           [breakpoints.down("sm")]: {
-            minWidth: "30px",
+            minWidth: "35px",
           },
         },
       },

@@ -84,7 +84,7 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
           gap: "8px",
         },
         [theme.breakpoints.up("xs")]: {
-          gap: "4px",
+          gap: "2px",
         },
       }}
     >
@@ -97,7 +97,7 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
             gap: "8px",
           },
           [theme.breakpoints.up("xs")]: {
-            gap: "4px",
+            gap: "2px",
           },
         }}
       >
@@ -119,7 +119,7 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
             gap: "8px",
           },
           [theme.breakpoints.up("xs")]: {
-            gap: "4px",
+            gap: "2px",
           },
         }}
       >
@@ -141,7 +141,7 @@ const GameKeyboard: FC<GameKeyboardProps> = (props) => {
             gap: "8px",
           },
           [theme.breakpoints.up("xs")]: {
-            gap: "4px",
+            gap: "2px",
           },
         }}
       >
