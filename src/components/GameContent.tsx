@@ -116,7 +116,13 @@ const GameContent = () => {
       setModalOpen(true);
     }
     if (guess.length === secretWord.length) {
-      setGuessIndex(guessIndex + 1);
+      setGuessIndex((prev) => {
+        if (guessIndex + 1 === guesses.length) {
+          const newGuesses = [...guesses, Array(5).fill("")];
+          setGuesses(newGuesses);
+        }
+        return guessIndex + 1;
+      });
       setCurrentIndex(0);
     }
   };
@@ -150,16 +156,41 @@ const GameContent = () => {
           },
         }}
       >
-        {guesses.map((_, index, event) => (
-          <GameRow
-            key={index}
-            guessIndex={index}
-            guess={guesses[index]}
-            handleSubmitGuess={handleSubmitGuess}
-            secretWord={secretWord}
-            isDisabled={index !== guessIndex}
-          />
-        ))}
+        <Stack
+          gap={1}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            overflow: "scroll",
+            "&:-webkit-scrollbar": {
+              display: "none",
+            },
+            /* Hide scrollbar for IE, Edge and Firefox */
+            msOverflowStyle: "none",
+            scrollbarWidth: "none" /* Firefox */,
+            [theme.breakpoints.up("md")]: {
+              height: "460px",
+            },
+            [theme.breakpoints.up("sm")]: {
+              height: "400px",
+            },
+            [theme.breakpoints.up("xs")]: {
+              height: "310px",
+            },
+          }}
+        >
+          {guesses.map((_, index, event) => (
+            <GameRow
+              key={index}
+              guessIndex={index}
+              guess={guesses[index]}
+              handleSubmitGuess={handleSubmitGuess}
+              secretWord={secretWord}
+              isDisabled={index !== guessIndex}
+            />
+          ))}
+        </Stack>
         {!isGameOver ? (
           <Button
             disabled={
