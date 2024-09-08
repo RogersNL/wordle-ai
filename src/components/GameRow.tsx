@@ -12,7 +12,7 @@ interface GameRowProps {
 }
 const GameRow: FC<GameRowProps> = (props) => {
   const [letterBackgroundColors, setLetterBackgroundColors] = useState(
-    Array(5).fill("")
+    Array(6).fill("")
   );
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

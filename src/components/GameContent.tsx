@@ -10,7 +10,7 @@ import type {} from "@mui/material/themeCssVarsAugmentation";
 const GameContent = () => {
   const [guessIndex, setGuessIndex] = useState(0);
   const [guesses, setGuesses] = useState<string[][]>(
-    Array(6).fill(Array(5).fill(""))
+    Array(6).fill(Array(6).fill(""))
   );
   const [secretWord, setSecretWord] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,7 +27,7 @@ const GameContent = () => {
   }, []);
 
   useEffect(() => {
-    if (currentIndex === 5) {
+    if (currentIndex === 6) {
       validateWord(guesses[guessIndex].join("")).then((response) => {
         if (response === undefined) {
           setIsNotWord(true);
@@ -49,7 +49,6 @@ const GameContent = () => {
         return Promise.allSettled([isValidWord, isNotPlural]).then(
           (results) => {
             const [isValidWordResult, isNotPluralResult] = results;
-            console.log("d", isValidWordResult, isNotPluralResult);
             if (
               isValidWordResult.status === "fulfilled" &&
               isValidWordResult.value &&
@@ -118,7 +117,7 @@ const GameContent = () => {
     if (guess.length === secretWord.length) {
       setGuessIndex((prev) => {
         if (guessIndex + 1 === guesses.length) {
-          const newGuesses = [...guesses, Array(5).fill("")];
+          const newGuesses = [...guesses, Array(6).fill("")];
           setGuesses(newGuesses);
         }
         return guessIndex + 1;
@@ -194,7 +193,7 @@ const GameContent = () => {
         {!isGameOver ? (
           <Button
             disabled={
-              secretWord.length === 0 || currentIndex !== 5 || isNotWord
+              secretWord.length === 0 || currentIndex !== 6 || isNotWord
             }
             variant="outlined"
             type="submit"
